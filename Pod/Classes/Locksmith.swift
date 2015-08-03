@@ -27,6 +27,7 @@ public enum LocksmithError: String, ErrorType {
     case UnableToClear = "Unable to clear the keychain"
     case Undefined = "An undefined error occurred"
     case Unimplemented = "Function or operation not implemented."
+    case CodeSignError = "Missing or Invalid Entitlement."
     
     init?(fromStatusCode code: Int) {
         switch code {
@@ -48,8 +49,12 @@ public enum LocksmithError: String, ErrorType {
             self = Param
         case Int(errSecUnimplemented):
             self = Unimplemented
-        default:
+        case -34018:
+            self = CodeSignError
+        case 0:
             return nil
+        default:
+            self = Unimplemented
         }
     }
 }
